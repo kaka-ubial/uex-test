@@ -29,7 +29,7 @@ export const fetchAddressByCep = async (cep: string): Promise<ViaCepResponse | n
 };
 
 export const getCoordinatesFromAddress = async (address: string) => {
-    const apiKey = 'AIzaSyD-90LyKnm7s4_zDE__xTmyiUvrygpo2PcFinde';
+    const apiKey = import.meta.env.VITE_GOOGLE_MAPS_KEY;
     const encodedAddress = encodeURIComponent(address);
     
     try {

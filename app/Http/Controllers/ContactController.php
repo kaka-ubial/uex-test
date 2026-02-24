@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Contact;
+use App\Rules\CpfValidation;
 use Inertia\Inertia;
 
 class ContactController extends Controller
@@ -44,16 +45,22 @@ public function index(Request $request)
             abort(403);
         }
 
+        $request->merge([
+            'phone' => preg_replace('/[^0-9]/', '', $request->phone),
+            'cep' => preg_replace('/[^0-9]/', '', $request->cep),
+        ]);
+
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'cpf' => 'required|string|unique:contacts,cpf,' . $contact->id, 
+            'cpf' => ['required', 'string', new CpfValidation, 'unique:contacts,cpf,' . $contact->id],
             'phone' => 'required|string',
             'cep' => 'required|string',
             'city' => 'required|string',
-            'latitude' => 'required|string',
-            'longitude' => 'required|string',
+            'neighbourhood' => 'nullable|string',
             'street' => 'required|string',
             'number' => 'required|string',
+            'latitude' => 'required|numeric',
+            'longitude' => 'required|numeric',
         ]);
 
         $contact->update($validated);
@@ -74,15 +81,23 @@ public function index(Request $request)
 
     public function store(Request $request)
     {
+
+        $request->merge([
+            'phone' => preg_replace('/[^0-9]/', '', $request->phone),
+            'cep' => preg_replace('/[^0-9]/', '', $request->cep),
+        ]);
+
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'cpf' => 'required|string|unique:contacts,cpf',
+            'cpf' => ['required', 'string', new CpfValidation, 'unique:contacts,cpf'],
             'phone' => 'required|string',
             'cep' => 'required|string',
             'city' => 'required|string',
+            'neighbourhood' => 'nullable|string',
             'street' => 'required|string',
             'number' => 'required|string',
-            'neighbourhood' => 'nullable|string',
+            'latitude' => 'required|numeric',
+            'longitude' => 'required|numeric',
         ]);
 
         auth()->user()->contacts()->create($validated);
