@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { PatternFormat } from 'react-number-format';
 
 interface ContactFormProps {
     data: any;
@@ -13,6 +14,8 @@ interface ContactFormProps {
 }
 
 export function ContactForm({ data, setData, errors, processing, submitLabel, onSubmit, onCepBlur }: ContactFormProps) {
+
+    
     return (
         <form onSubmit={onSubmit} className="space-y-4 bg-black p-6 rounded-xl shadow-sm border border-neutral-200">
             <div>
@@ -22,28 +25,49 @@ export function ContactForm({ data, setData, errors, processing, submitLabel, on
             </div>
 
             <div className="grid grid-cols-2 gap-4">
-                <div>
+                <div className="grid gap-2">
                     <Label htmlFor="cpf">CPF</Label>
-                    <Input id="cpf" value={data.cpf} onChange={e => setData('cpf', e.target.value)} />
-                    {errors.cpf && <span className="text-red-500 text-sm">{errors.cpf}</span>}
+                    <PatternFormat
+                        format="###.###.###-##"
+                        value={data.cpf}
+                        onValueChange={(values) => setData('cpf', values.value)}
+                        customInput={Input}
+                        placeholder="000.000.000-00"
+                        className={errors.cpf ? 'border-red-500' : ''}
+                        disabled={processing}
+                    />
+                    {errors.cpf && <p className="text-sm text-red-500">{errors.cpf}</p>}
                 </div>
                 <div>
                     <Label htmlFor="phone">Phone</Label>
-                    <Input id="phone" value={data.phone} onChange={e => setData('phone', e.target.value)} />
+                    <PatternFormat
+                        format="(##)#####-####"
+                        value={data.phone}
+                        onValueChange={(values) => setData('phone', values.value)}
+                        customInput={Input}
+                        placeholder="(00) 00000-0000"
+                        className={errors.phone ? 'border-red-500' : ''}
+                        disabled={processing}
+                    />
+                    {errors.phone && <p className="text-sm text-red-500">{errors.phone}</p>}
                 </div>
             </div>
 
             <div className="grid grid-cols-3 gap-4">
                 <div>
-                            <Label htmlFor="cep">CEP</Label>
-                            <Input 
-                                id="cep" 
-                                value={data.cep} 
-                                onChange={e => setData('cep', e.target.value)}
-                                onBlur={onCepBlur}
-                                maxLength={9}
-                                placeholder="00000-000"
-                            />
+                    <Label htmlFor="cep">CEP</Label>
+                        <PatternFormat
+                            format="##.###-###"
+                            value={data.cep}
+                            onValueChange={(values) => setData('cep', values.value)}
+                            customInput={Input}
+                            onBlur={onCepBlur}
+                            placeholder="00.000-000"
+                            className={errors.cep ? 'border-red-500' : ''}
+                        disabled={processing}
+                    />
+                    {errors.cep && <p className="text-sm text-red-500">{errors.cep}</p>}
+
                         </div>
                 <div className="col-span-2">
                     <Label htmlFor="city">City</Label>

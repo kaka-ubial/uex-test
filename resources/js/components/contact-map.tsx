@@ -1,18 +1,27 @@
-import { APIProvider, Map, Marker } from '@vis.gl/react-google-maps';
+import { Map, Marker, useMap } from '@vis.gl/react-google-maps';
+import { useEffect } from 'react';
+
+function MapHandler({ lat, lng }: { lat: number; lng: number }) {
+    const map = useMap();
+    useEffect(() => {
+        if (map) {
+            map.panTo({ lat, lng });
+        }
+    }, [lat, lng, map]);
+    return null;
+}
 
 export function ContactMap({ lat, lng }: { lat: number; lng: number }) {
     return (
-        <div className="h-[300px] w-full rounded-xl overflow-hidden border">
-            <APIProvider apiKey={'AIzaSyD-90LyKnm7s4_zDE__xTmyiUvrygpo2Pc'}>
+        <div className="h-full w-full border-2 border-neutral-200 dark:border-neutral-800 rounded-lg overflow-hidden">
                 <Map
-                    defaultCenter={{ lat: lat, lng: lng }}
-                    defaultZoom={15}
-                    gestureHandling={'greedy'}
-                    disableDefaultUI={true}
+                    center={{ lat, lng }}
+                    zoom={15}
+                    gestureHandling="greedy"
+                    disableDefaultUI
                 >
-                    <Marker position={{ lat: lat, lng: lng }} />
+                    <Marker position={{ lat, lng }} />
                 </Map>
-            </APIProvider>
         </div>
     );
 }
