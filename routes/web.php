@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Laravel\Fortify\Features;
+use App\Http\Controllers\ContactController;
 
 Route::get('/', function () {
     return Inertia::render('welcome', [
@@ -10,8 +11,17 @@ Route::get('/', function () {
     ]);
 })->name('home');
 
-Route::get('dashboard', function () {
-    return Inertia::render('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('dashboard', [ContactController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
+
+Route::get('/contacts/create', [ContactController::class, 'create'])
+    ->name('contacts.create');
+Route::post('/contacts', [ContactController::class, 'store'])->name('contacts.store');
+
+Route::delete('/contacts/{contact}', [ContactController::class, 'destroy']);
+
+Route::get('/contacts/{contact}/edit', [ContactController::class, 'edit'])->name('contacts.edit');
+Route::patch('/contacts/{contact}', [ContactController::class, 'update'])->name('contacts.update');
 
 require __DIR__.'/settings.php';

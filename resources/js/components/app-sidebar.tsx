@@ -18,7 +18,7 @@ import { dashboard } from '@/routes';
 
 const mainNavItems: NavItem[] = [
     {
-        title: 'Dashboard',
+        title: 'Contacts',
         href: dashboard(),
         icon: LayoutGrid,
     },
