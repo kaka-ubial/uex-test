@@ -7,8 +7,12 @@ use Illuminate\Support\Facades\Http;
 class AddressController extends Controller
 {
     /**
-     * The function `proxyCep` in PHP processes a given postal code (CEP), retrieves address information
-     * from an Via Cep API, and returns the formatted data in JSON format.
+     * Proxies requests to the ViaCep API.
+     * * This acts as an internal bridge to avoid CORS issues on the frontend
+     * and to sanitize/format the postal code data before it reaches the client.
+     *
+     * @param string $cep The postal code (e.g., "01001-000" or "01001000")
+     * @return JsonResponse
      */
     public function proxyCep($cep)
     {
@@ -18,6 +22,11 @@ class AddressController extends Controller
             return response()->json(['erro' => true]);
         }
 
+        /**
+         * Perform the external request.
+         * Note: 'verify' => false is used here to bypass SSL certificate issues
+         * that were found in the local dev environment.
+         */
         $response = Http::withOptions([
             'verify' => false,
         ])->get("https://viacep.com.br/ws/{$cep}/json/");
@@ -27,6 +36,7 @@ class AddressController extends Controller
             return response()->json(['erro' => true]);
         }
 
+        // Return a filtered subset of the data to keep the payload clean
         return response()->json([
             'cep' => $data['cep'] ?? '',
             'logradouro' => $data['logradouro'] ?? '',

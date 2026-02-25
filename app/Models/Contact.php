@@ -20,7 +20,6 @@ class Contact extends Model
         'phone',
         'cep',
         'country',
-        'state',
         'latitude',
         'longitude',
         'city',
@@ -36,6 +35,13 @@ class Contact extends Model
         'created_at' => 'datetime:Y-m-d H:i:s',
     ];
 
+    /**
+    * Relationship: Contact belongs to a User.
+     * * Defines the inverse of the User -> Contacts relationship.
+     * Allows accessing the owner via $contact->user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function user()
     {
         return $this->belongsTo(User::class);

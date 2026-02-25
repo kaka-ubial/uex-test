@@ -4,6 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
 interface Props {
+    /** Callback to send the parsed Google Place object back to the parent form */
     onAddressSelect: (address: any) => void;
 }
 

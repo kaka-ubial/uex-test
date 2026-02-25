@@ -11,8 +11,9 @@ class ContactController extends Controller
 {
 
 /**
- * The index function retrieves contacts based on a search query and returns them for display in a
- * dashboard using Inertia.js.
+ * Display a listing of the contacts.
+ * * Fetches contacts belonging strictly to the authenticated user.
+ * Real-time filtering via search strings (Name or CPF) 
  */
 public function index(Request $request)
 {
@@ -36,8 +37,9 @@ public function index(Request $request)
 }
 
 /**
- * The edit function checks if the user is authorized to edit a contact and renders the edit page with
- * the contact data.
+ * Show the form for editing the specified contact.
+ * * Includes a manual authorization check to ensure users cannot 
+ * access contacts belonging to others via URL manipulation.
  */
 public function edit(Contact $contact)
 {
@@ -49,7 +51,8 @@ public function edit(Contact $contact)
 }
 
 /**
- * The function updates a contact's information after validating and sanitizing the input data.
+ * Update the specified contact in storage.
+ * * Relies on ContactRequest for validation (including CPF rules).
  */
 public function update(ContactRequest $request, Contact $contact)
 {
@@ -58,7 +61,7 @@ public function update(ContactRequest $request, Contact $contact)
 }
 
 /**
- * The create function returns a view for creating contacts using the Inertia framework in PHP.
+ * Show the form for creating a new contact.
  */
 public function create()
 {
@@ -66,7 +69,8 @@ public function create()
 }
 
 /**
- * The function `destroy` deletes a contact record and redirects back to the previous page.
+ * Remove the specified contact from storage.
+ * * Utilizes Route Model Binding to automatically find the Contact instance.
  */
 public function destroy(Contact $contact)
 {
@@ -75,8 +79,9 @@ public function destroy(Contact $contact)
 }
 
 /**
- * The store function processes and validates user input to create a new contact associated with the
- * authenticated user.
+ * Store a newly created contact in storage.
+ * * Creates the contact through the User relationship to automatically
+ * assign the 'user_id' foreign key to the authenticated user.
  */
 public function store(ContactRequest $request)
 {

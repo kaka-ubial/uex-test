@@ -7,10 +7,14 @@ use Illuminate\Contracts\Validation\ValidationRule;
 
 class CpfValidation implements ValidationRule
 {
-    /**
+/**
      * Run the validation rule.
+     * * This method implements the MOD11 algorithm used by Brazil 
+     * to validate CPF authenticity.
      *
-     * @param  \Closure(string, ?string=): \Illuminate\Translation\PotentiallyTranslatedString  $fail
+     * @param string $attribute The name of the field being validated (e.g., 'cpf')
+     * @param mixed $value The actual input string from the user
+     * @param \Closure $fail The callback to trigger if validation fails
      */
 public function validate(string $attribute, mixed $value, Closure $fail): void
     {
