@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
+use App\Http\Requests\Settings\ContactRequest;
 use App\Models\Contact;
 use App\Rules\CpfValidation;
 use Inertia\Inertia;
@@ -50,7 +51,7 @@ public function edit(Contact $contact)
 /**
  * The function updates a contact's information after validating and sanitizing the input data.
  */
-public function update(Request $request, Contact $contact)
+public function update(ContactRequest $request, Contact $contact)
 {
     $contact->update($request->validated());
     return redirect()->route('dashboard')->with('success', 'Contact updated!');
@@ -77,7 +78,7 @@ public function destroy(Contact $contact)
  * The store function processes and validates user input to create a new contact associated with the
  * authenticated user.
  */
-public function store(Request $request)
+public function store(ContactRequest $request)
 {
     auth()->user()->contacts()->create($request->validated());
     return redirect()->route('dashboard')->with('success', 'Contact created!');
