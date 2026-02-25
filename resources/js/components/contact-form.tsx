@@ -35,19 +35,21 @@ export function ContactForm({ data, setData, errors, processing, submitLabel, on
                         placeholder="000.000.000-00"
                         className={errors.cpf ? 'border-red-500' : ''}
                         disabled={processing}
+                        required
                     />
                     {errors.cpf && <p className="text-sm text-red-500">{errors.cpf}</p>}
                 </div>
                 <div>
                     <Label htmlFor="phone">Phone</Label>
                     <PatternFormat
-                        format="(##)#####-####"
+                        format="(##) #####-####"
                         value={data.phone}
                         onValueChange={(values) => setData('phone', values.value)}
                         customInput={Input}
                         placeholder="(00) 00000-0000"
                         className={errors.phone ? 'border-red-500' : ''}
                         disabled={processing}
+                        required
                     />
                     {errors.phone && <p className="text-sm text-red-500">{errors.phone}</p>}
                 </div>
@@ -64,30 +66,31 @@ export function ContactForm({ data, setData, errors, processing, submitLabel, on
                             onBlur={onCepBlur}
                             placeholder="00.000-000"
                             className={errors.cep ? 'border-red-500' : ''}
-                        disabled={processing}
+                            disabled={processing}
+                            required
                     />
                     {errors.cep && <p className="text-sm text-red-500">{errors.cep}</p>}
 
                         </div>
                 <div className="col-span-2">
                     <Label htmlFor="city">City</Label>
-                    <Input id="city" value={data.city} onChange={e => setData('city', e.target.value)} />
+                    <Input id="city" value={data.city} onChange={e => setData('city', e.target.value)} required/>
                 </div>
             </div>
                 <div className="grid grid-cols-2 gap-4">
                     <div className="col-span-2">
                         <Label htmlFor="neighbourhood">Neighbourhood</Label>
-                        <Input id="neighbourhood" value={data.neighbourhood} onChange={e => setData('neighbourhood', e.target.value)} />
+                        <Input id="neighbourhood" value={data.neighbourhood} onChange={e => setData('neighbourhood', e.target.value)} required/>
                     </div>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                     <div className="col-span-2">
                         <Label htmlFor="street">Street</Label>
-                        <Input id="street" value={data.street} onChange={e => setData('street', e.target.value)} />
+                        <Input id="street" value={data.street} onChange={e => setData('street', e.target.value)} required/>
                     </div>
                     <div className="col-span-2">
                         <Label htmlFor="number">Number</Label>
-                        <Input id="number" value={data.number} onChange={e => setData('number', e.target.value)} />
+                        <Input id="number" value={data.number} onChange={e => setData('number', e.target.value)} required/>
                     </div>
                 </div>
 
