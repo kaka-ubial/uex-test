@@ -10,6 +10,12 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { useState } from 'react';
 
+interface ContactListProps {
+    serverContacts: any;
+    onContactClick: (contact: any) => void;
+    activeContactId?: number | null;
+}
+
 const FullWidthContainer = styled('div')(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
   border: `1px solid ${theme.palette.divider}`,
@@ -18,7 +24,7 @@ const FullWidthContainer = styled('div')(({ theme }) => ({
   height: '100%', 
 }));
 
-export default function ContactList({serverContacts}: {serverContacts: any}) {
+export default function ContactList({serverContacts, onContactClick, activeContactId }: ContactListProps    ) {
     const contacts = serverContacts?.data || [];
     const [deleteId, setDeleteId] = useState<number | null>(null);
 
@@ -64,6 +70,13 @@ export default function ContactList({serverContacts}: {serverContacts: any}) {
                         contacts.map((contact: any, index: number) => (
                             <React.Fragment key={contact.id}>
                                 <ListItem
+                                    component="div"
+                                    onClick={() => onContactClick(contact)}
+                                    sx={{
+                                        cursor: 'pointer',
+                                        backgroundColor: activeContactId === contact.id ? 'action.selected' : 'transparent',
+                                        '&:hover': { backgroundColor: 'action.hover' },
+                                    }}
                                     secondaryAction={
                                         <Stack direction="row" spacing={1}>
                                             <IconButton onClick={() => handleUpdate(contact)}>
