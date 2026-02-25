@@ -2,7 +2,7 @@
 
 A modern **React & Laravel** application for managing contacts with real-time geolocation mapping. This system features a "dual-sync" address entry method: fetch data via **CEP (ViaCEP)** or via **Google Places Autocomplete**.
 
----
+
 
 ## Features
 
@@ -13,7 +13,7 @@ A modern **React & Laravel** application for managing contacts with real-time ge
 * **Smart Form Validation:** Masked inputs for CPF, Phone, and CEP using `react-number-format`.
 * **Automated Testing:** Comprehensive test suite powered by **Pest PHP**.
 
----
+
 
 ## Stack
 
