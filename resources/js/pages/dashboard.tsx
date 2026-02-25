@@ -42,7 +42,7 @@ export default function Dashboard({ contacts }: { contacts: any }) {
                         
                         <Button asChild className="bg-blue-600 hover:bg-blue-700 text-white">
                             <Link href="/contacts/create">
-                                <Plus className="mr-2 h-4 w-4" />
+                                <Plus className="h-4 w-4" />
                                 New Contact
                             </Link>
                         </Button>
