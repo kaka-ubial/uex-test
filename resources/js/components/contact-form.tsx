@@ -17,7 +17,7 @@ export function ContactForm({ data, setData, errors, processing, submitLabel, on
 
     
     return (
-        <form onSubmit={onSubmit} className="space-y-4 bg-black p-6 rounded-xl shadow-sm border border-neutral-200">
+        <form onSubmit={onSubmit} className="space-y-4 p-6 rounded-xl shadow-sm border border-neutral-200">
             <div>
                 <Label htmlFor="name">Name</Label>
                 <Input id="name" value={data.name} onChange={e => setData('name', e.target.value)} />
