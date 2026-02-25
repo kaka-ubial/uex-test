@@ -8,26 +8,6 @@ export interface ViaCepResponse {
     erro?: boolean;
 }
 
-export const fetchAddressByCep = async (cep: string): Promise<ViaCepResponse | null> => {
-    const cleanCep = cep.replace(/\D/g, '');
-
-    if (cleanCep.length !== 8) return null;
-
-    try {
-        const response = await fetch(`https://viacep.com.br/ws/${cleanCep}/json/`);
-        const data: ViaCepResponse = await response.json();
-
-        if (data.erro) {
-            return null;
-        }
-
-        return data;
-    } catch (error) {
-        console.error("Erro ao buscar CEP:", error);
-        return null;
-    }
-};
-
 export const getCoordinatesFromAddress = async (address: string) => {
     const apiKey = import.meta.env.VITE_GOOGLE_MAPS_KEY;
     const encodedAddress = encodeURIComponent(address);

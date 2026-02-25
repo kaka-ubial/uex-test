@@ -4,6 +4,11 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Laravel\Fortify\Features;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\AddressController;
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/api/proxy-cep/{cep}', [AddressController::class, 'proxyCep']);
+});
 
 Route::get('/', function () {
     return Inertia::render('welcome', [

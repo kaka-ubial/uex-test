@@ -1,4 +1,4 @@
-import { fetchAddressByCep, getCoordinatesFromAddress } from '@/utils/address-validator';
+import { getCoordinatesFromAddress } from '@/utils/address-validator';
 
 
 export function useContactAddress(form: any) {
@@ -32,22 +32,32 @@ export function useContactAddress(form: any) {
         const cepValue = e.target.value.replace(/\D/g, '');
         if (cepValue.length !== 8) return;
 
-        const address = await fetchAddressByCep(cepValue);
-        if (!address) return;
+        try {
+            const response = await fetch(`/api/proxy-cep/${cepValue}`, {
+                credentials: "include"
+            });            
+            if (!response.ok) {
+                throw new Error("Erro ao buscar CEP");
+            }
 
-        const searchAddress = `${address.logradouro}, ${address.bairro}, ${address.localidade}, Brazil`;
-        const coords = await getCoordinatesFromAddress(searchAddress);
+            const address = await response.json();            
+            if (!address) return;
 
-        form.setData(old => ({
-            ...old,
-            street: address.logradouro,
-            neighbourhood: address.bairro,
-            city: address.localidade,
-            cep: cepValue,
-            latitude: coords?.latitude ?? old.latitude,
-            longitude: coords?.longitude ?? old.longitude
-        }));
+            const searchAddress = `${address.logradouro}, ${address.bairro}, ${address.localidade}, Brazil`;
+            const coords = await getCoordinatesFromAddress(searchAddress);
+
+            form.setData(old => ({
+                ...old,
+                street: address.logradouro,
+                neighbourhood: address.bairro,
+                city: address.localidade,
+                cep: cepValue,
+                latitude: coords?.latitude ?? old.latitude,
+                longitude: coords?.longitude ?? old.longitude
+            }));
+        } catch (error) {
+        console.error("Proxy error:", error);
+        };
     };
-
     return { handleAddressSelect, handleCepBlur };
 }
