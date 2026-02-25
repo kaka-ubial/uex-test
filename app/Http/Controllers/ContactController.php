@@ -52,30 +52,7 @@ public function edit(Contact $contact)
  */
 public function update(Request $request, Contact $contact)
 {
-    if ($contact->user_id !== auth()->id()) {
-        abort(403);
-    }
-
-    $request->merge([
-        'phone' => preg_replace('/[^0-9]/', '', $request->phone),
-        'cep' => preg_replace('/[^0-9]/', '', $request->cep),
-    ]);
-
-    $validated = $request->validate([
-        'name' => 'required|string|max:255',
-        'cpf' => ['required', 'string', new CpfValidation, 'unique:contacts,cpf,' . $contact->id],
-        'phone' => 'required|string',
-        'cep' => 'required|string',
-        'city' => 'required|string',
-        'neighbourhood' => 'nullable|string',
-        'street' => 'required|string',
-        'number' => 'required|string',
-        'latitude' => 'required|numeric',
-        'longitude' => 'required|numeric',
-    ]);
-
-    $contact->update($validated);
-
+    $contact->update($request->validated());
     return redirect()->route('dashboard')->with('success', 'Contact updated!');
 }
 
@@ -102,27 +79,7 @@ public function destroy(Contact $contact)
  */
 public function store(Request $request)
 {
-
-    $request->merge([
-        'phone' => preg_replace('/[^0-9]/', '', $request->phone),
-        'cep' => preg_replace('/[^0-9]/', '', $request->cep),
-    ]);
-
-    $validated = $request->validate([
-        'name' => 'required|string|max:255',
-        'cpf' => ['required', 'string', new CpfValidation, 'unique:contacts,cpf'],
-        'phone' => 'required|string',
-        'cep' => 'required|string',
-        'city' => 'required|string',
-        'neighbourhood' => 'nullable|string',
-        'street' => 'required|string',
-        'number' => 'required|string',
-        'latitude' => 'required|numeric',
-        'longitude' => 'required|numeric',
-    ]);
-
-    auth()->user()->contacts()->create($validated);
-
+    auth()->user()->contacts()->create($request->validated());
     return redirect()->route('dashboard')->with('success', 'Contact created!');
 }
 }
