@@ -1,12 +1,14 @@
 import * as React from 'react';
-import { Form, Head, router, usePage } from '@inertiajs/react';
+import { router } from '@inertiajs/react';
 import { styled } from '@mui/material/styles';
 import { 
     Box, List, ListItem, ListItemText, IconButton, 
-    Typography, Stack, Divider, Pagination 
+    Typography, Stack, Divider, Pagination,
+    Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import { useState } from 'react';
 
 const FullWidthContainer = styled('div')(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
@@ -17,7 +19,9 @@ const FullWidthContainer = styled('div')(({ theme }) => ({
 }));
 
 export default function ContactList({serverContacts}: {serverContacts: any}) {
-const contacts = serverContacts?.data || [];
+    const contacts = serverContacts?.data || [];
+    const [deleteId, setDeleteId] = useState<number | null>(null);
+
     const pagination = {
         current: serverContacts?.current_page || 1,
         total: serverContacts?.last_page || 1
@@ -33,9 +37,18 @@ const contacts = serverContacts?.data || [];
         });
     };
 
+    const handleCancelDelete = () => {
+        setDeleteId(null); 
+    };
+    
     const handleDelete = (id: number) => {
-        if (confirm('Are you sure you want to delete this contact?')) {
-            router.delete(`/contacts/${id}`);
+        setDeleteId(id);
+    };
+
+    const confirmDelete = () => {
+        if (deleteId) {
+            router.delete(`/contacts/${deleteId}`);
+            setDeleteId(null);
         }
     };
 
@@ -67,7 +80,7 @@ const contacts = serverContacts?.data || [];
                                 >
                                     <ListItemText
                                         primary={
-                                            <Typography variant="body2" sx={{ fontWeight: 600, color: 'black' }}>
+                                            <Typography variant="body2" color="text.primary">
                                                 {contact.name}
                                             </Typography>
                                         }
@@ -86,14 +99,36 @@ const contacts = serverContacts?.data || [];
                     )}
                 </List>
             </FullWidthContainer>
-
+            <Dialog
+                open={deleteId !== null}
+                onClose={handleCancelDelete}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">
+                    {"Delete Contact?"}
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        Are you sure you want to delete this contact? This action cannot be undone.
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions sx={{ p: 2 }}>
+                    <Button onClick={handleCancelDelete} variant="outlined" color="inherit">
+                        Cancel
+                    </Button>
+                    <Button onClick={confirmDelete} variant="contained" color="error" autoFocus>
+                        Delete
+                    </Button>
+                </DialogActions>
+            </Dialog>
             {pagination.total > 1 && (
                 <Box sx={{ display: 'flex', justifyContent: 'center', pb: 2 }}>
                     <Pagination 
                         count={pagination.total} 
                         page={pagination.current} 
                         onChange={handlePageChange}
-                        color="primary"
+                        color="secondary"
                         shape="rounded"
                     />
                 </Box>
