@@ -41,13 +41,12 @@ export function AddressAutocomplete({ onAddressSelect }: Props) {
     }, [places, onAddressSelect]); 
 
     return (
-        <div className="space-y-2">
+        <div className="space-y-2 mb-1">
             <Label htmlFor="search-address">Buscar endereço</Label>
             <Input 
                 id="search-address"
                 ref={inputRef} 
                 placeholder="Ex: Av. Paulista, São Paulo" 
-                className="bg-white text-black"
             />
         </div>
     );
