@@ -80,7 +80,7 @@ export default function ContactList({serverContacts}: {serverContacts: any}) {
                                 >
                                     <ListItemText
                                         primary={
-                                            <Typography variant="body2" color="text.primary">
+                                            <Typography variant="body2" color="text.secondary" fontWeight={600}>
                                                 {contact.name}
                                             </Typography>
                                         }
@@ -105,7 +105,7 @@ export default function ContactList({serverContacts}: {serverContacts: any}) {
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
-                <DialogTitle id="alert-dialog-title">
+                <DialogTitle id="alert-dialog-title" color='text.secondary'>
                     {"Delete Contact?"}
                 </DialogTitle>
                 <DialogContent>
@@ -114,7 +114,7 @@ export default function ContactList({serverContacts}: {serverContacts: any}) {
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions sx={{ p: 2 }}>
-                    <Button onClick={handleCancelDelete} variant="outlined" color="inherit">
+                    <Button onClick={handleCancelDelete} variant="outlined" color="primary">
                         Cancel
                     </Button>
                     <Button onClick={confirmDelete} variant="contained" color="error" autoFocus>

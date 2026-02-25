@@ -4,6 +4,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import '../css/app.css';
 import { initializeTheme } from './hooks/use-appearance';
+import MuiThemeObserver from './hooks/mui-theme-observer';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
@@ -18,9 +19,11 @@ createInertiaApp({
         const root = createRoot(el);
 
         root.render(
-            <StrictMode>
-                <App {...props} />
-            </StrictMode>,
+            <MuiThemeObserver>
+                <StrictMode>
+                    <App {...props} />
+                </StrictMode>
+            </MuiThemeObserver>,
         );
     },
     progress: {
