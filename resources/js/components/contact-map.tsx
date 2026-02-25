@@ -1,4 +1,4 @@
-import { Map, Marker, useMap } from '@vis.gl/react-google-maps';
+import { Map, Marker } from '@vis.gl/react-google-maps';
 
 export function ContactMap({ lat, lng }: { lat: number; lng: number }) {
     return (

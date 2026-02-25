@@ -7,7 +7,6 @@ import { dashboard } from '@/routes';
 import { Input } from '@/components/ui/input';
 import { Search } from 'lucide-react';
 import { useState, useEffect } from 'react';
-import { route } from 'ziggy-js';
 import { ContactMap } from '../components/contact-map';
 
 const breadcrumbs = [
